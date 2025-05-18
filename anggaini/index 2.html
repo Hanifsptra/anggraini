@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>Birthday Party Anggraini</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Arrima:wght@700&family=Pacifico&family=Open+Sans:wght@400;700&display=swap');
+
+  :root {
+    --main-bg-gradient: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    --header-bg-gradient: linear-gradient(90deg, #8e2de2, #4a00e0);
+    --button-bg-gradient: linear-gradient(45deg, #f7971e, #ffd200);
+    --button-hover-gradient: linear-gradient(45deg, #ff416c, #ff4b2b);
+    --shadow-color: rgba(0,0,0,0.3);
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+    background: var(--main-bg-gradient);
+    color: #fff;
+    overflow-x: hidden;
+  }
+
+  header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: var(--header-bg-gradient);
+    backdrop-filter: blur(6px);
+    box-shadow: 0 2px 6px var(--shadow-color);
+    padding: 1em 1.5em;
+    z-index: 1000;
+    text-align: center;
+    font-family: 'Pacifico', cursive;
+    font-size: 2rem;
+    letter-spacing: 0.1em;
+    color: white;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  main {
+    position: relative;
+    height: 100vh;
+    padding: 80px 20px 60px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: visible; /* allow content to overflow if needed */
+  }
+
+  .page {
+    position: absolute;
+    top: 80px;
+    left: 50%;
+    width: 100%;
+    max-width: 700px;
+    pointer-events: none;
+    opacity: 0;
+    text-align: center;
+    padding: 10px 15px;
+
+    /* Morph transition setup */
+    clip-path: circle(0% at 50% 50%);
+    -webkit-clip-path: circle(0% at 50% 50%);
+    transform: scale(0.85);
+    transition:
+      clip-path 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+      -webkit-clip-path 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.4s ease,
+      transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 0;
+  }
+
+  .page.active {
+    clip-path: circle(300% at 50% 50%);
+    -webkit-clip-path: circle(300% at 50% 50%);
+    opacity: 1;
+    pointer-events: auto;
+    position: relative;
+    transform: scale(1);
+    z-index: 1;
+  }
+
+  .page h2 {
+    font-family: 'Pacifico', cursive;
+    font-size: 3rem;
+    margin: 0.2em 0;
+    /* Keep accent color */
+    color: #ffc93c;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+  }
+
+  .page p {
+    font-size: 1.3rem;
+    margin: 0.5em 0 1.5em;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    line-height: 1.4;
+  }
+
+  .images {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .images img {
+    max-width: 45%;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    transition: transform 0.3s ease, filter 0.3s ease;
+    cursor: default;
+    object-fit: cover;
+  }
+
+  .images img:hover {
+    transform: scale(1.05) rotate(3deg);
+    filter: drop-shadow(0 0 8px #ff69b4);
+  }
+
+  nav {
+    position: fixed;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 25px;
+    z-index: 1000;
+  }
+
+  nav button {
+    background: var(--button-bg-gradient);
+    border: none;
+    border-radius: 30px;
+    padding: 15px 30px;
+    font-weight: 700;
+    font-family: 'Arrima', sans-serif;
+    font-size: 1.1rem;
+    color: #1e1f35;
+    cursor: pointer;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    transition: background 0.3s ease;
+  }
+
+  nav button:hover {
+    background: var(--button-hover-gradient);
+    color: #fff;
+  }
+
+  /* Floating hearts - NO morph animation */
+  .heart {
+    position: fixed;
+    width: 24px;
+    height: 22px;
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+    transform: rotate(-45deg);
+    /* Random position set by JS */
+    opacity: 0.8;
+    border-radius: 4px 4px 20px 20px;
+    filter: drop-shadow(0 0 5px #ff6666);
+    z-index: 9999; /* Above everything */
+    pointer-events: none;
+    animation-name: floatHeartLinear;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+
+  .heart::before,
+  .heart::after {
+    content: "";
+    position: absolute;
+    width: 24px;
+    height: 22px;
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+    border-radius: 50%;
+  }
+
+  .heart::before {
+    top: -12px;
+    left: 0;
+  }
+
+  .heart::after {
+    top: 0;
+    left: 12px;
+  }
+
+  @keyframes floatHeartLinear {
+    0% {
+      transform: translateY(0) rotate(-45deg);
+      opacity: 0.8;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-150vh) rotate(-45deg);
+      opacity: 0;
+    }
+  }
+
+  /* Confetti shapes - NO morph animation */
+  .confetti {
+    position: fixed;
+    z-index: 9998;
+    pointer-events: none;
+  }
+
+  .confetti-piece {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    opacity: 0.9;
+    border-radius: 3px;
+    box-shadow: 0 0 6px;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+  }
+
+  /* Gradient confetti */
+  .confetti-piece.red { 
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+    box-shadow: 0 0 8px #ff416c;
+  }
+  .confetti-piece.yellow { 
+    background: linear-gradient(45deg, #f7971e, #ffd200);
+    box-shadow: 0 0 8px #ffd200;
+  }
+  .confetti-piece.blue { 
+    background: linear-gradient(45deg, #43cea2, #185a9d);
+    box-shadow: 0 0 8px #43cea2;
+  }
+  .confetti-piece.pink { 
+    background: linear-gradient(45deg, #ff6fcf, #ff4b2b);
+    box-shadow: 0 0 8px #ff6fcf;
+  }
+  .confetti-piece.green { 
+    background: linear-gradient(45deg, #4fe07a, #43cea2);
+    box-shadow: 0 0 8px #4fe07a;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 600px) {
+    main {
+      padding: 80px 15px 80px;
+    }
+
+    .page h2 {
+      font-size: 2.2rem;
+    }
+
+    .page p {
+      font-size: 1.1rem;
+    }
+
+    .images img {
+      max-width: 90%;
+      margin: 10px 0;
+      border-radius: 15px;
+    }
+
+    nav button {
+      padding: 12px 25px;
+      font-size: 1rem;
+    }
+  }
+</style>
+</head>
+
+<body>
+<header>Birthday Party Anggraini 🎉</header>
+<main>
+  <!-- Pages with greetings and images -->
+  <section class="page active" id="page-1" aria-label="Birthday greeting page 1">
+    <h2>Happy Birthday Anggraini Madyalina Dwi Saputri🎂</h2>
+    <p>Anjayyyyy nambah lagi nih umurnya btw ahahahaha😂😂</p>
+    <div class="images">
+      <img src="photo/potbar2.jpg" alt="Birthday Cake with candles" />
+      <img src="photo/potbar4.jpg" alt="Colorful balloons" />
+    </div>
+  </section>
+  <section class="page" id="page-2" aria-label="Birthday greeting page 2">
+    <h2>bacanya pake nada lembuttttt</h2>
+    <p>cuma pengen bilang diulang tahun yg ke-18 ini semoga anggre selalu diberi kesehatan dan lindungan selalu sama allah. </p>
+    <div class="images">
+      <img src="https://images.unsplash.com/photo-1532634726-193bf6e9c125?auto=format&fit=crop&w=600&q=80" alt="Party confetti" />
+      <img src= alt="Birthday gift box" />
+    </div>
+  </section>
+  <section class="page" id="page-3" aria-label="Birthday greeting page 3">
+    <h2>Make a Wish!</h2>
+    <p>Blow out the candles and let your dreams take flight.</p>
+    <div class="images">
+      <img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7?auto=format&fit=crop&w=600&q=80" alt="Birthday candles" />
+      <img src="https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=600&q=80" alt="Dream balloons" />
+    </div>
+  </section>
+  <section class="page" id="page-4" aria-label="Birthday greeting page 4">
+    <h2>Celebrate!</h2>
+    <p>Enjoy every moment surrounded by friends and family.</p>
+    <div class="images">
+      <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=80" alt="Party glasses" />
+      <img src="https://images.unsplash.com/photo-1486308510493-cb9a7b9e83f6?auto=format&fit=crop&w=600&q=80" alt="Decorations" />
+    </div>
+  </section>
+  <section class="page" id="page-5" aria-label="Birthday greeting page 5">
+    <h2>Surprise!</h2>
+    <p>May this year bring you plenty of wonderful surprises.</p>
+    <div class="images">
+      <img src="https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=600&q=80" alt="Wrapped gift" />
+      <img src="https://images.unsplash.com/photo-1517604931442-c3d5a549f5b3?auto=format&fit=crop&w=600&q=80" alt="Gift boxes" />
+    </div>
+  </section>
+  <section class="page" id="page-6" aria-label="Birthday greeting page 6">
+    <h2>Health & Happiness</h2>
+    <p>Wishing you health, happiness, and all the best in life.</p>
+    <div class="images">
+      <img src="https://images.unsplash.com/photo-1511317688831-978b7efaa577?auto=format&fit=crop&w=600&q=80" alt="Sunshine" />
+      <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Nature happiness" />
+    </div>
+  </section>
+  <section class="page" id="page-7" aria-label="Birthday greeting page 7">
+    <h2>Bright Future</h2>
+    <p>May your future be bright with endless possibilities.</p>
+    <div class="images">
+      <img src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&w=600&q=80" alt="Sunrise horizon" />
+      <img src="https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?auto=format&fit=crop&w=600&q=80" alt="Light bulbs" />
+    </div>
+  </section>
+  <section class="page" id="page-8" aria-label="Birthday greeting page 8">
+    <h2>Much Love!</h2>
+    <p>Sending you lots of love today and always. ❤️</p>
+    <div class="images">
+      <img src="https://images.unsplash.com/photo-1512427691650-4e02eeaa5fb1?auto=format&fit=crop&w=600&q=80" alt="Heart balloons" />
+      <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80" alt="Soft hearts" />
+    </div>
+  </section>
+</main>
+
+<nav aria-label="Page navigation">
+  <button id="prevBtn" aria-label="Previous page">Prev</button>
+  <button id="nextBtn" aria-label="Next page">Next</button>
+</nav>
+
+<script>
+  // Page navigation logic with morph transition
+  const pages = document.querySelectorAll('.page');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  let currentIndex = 0;
+  let isAnimating = false;
+
+  function showPage(newIndex) {
+    if (isAnimating || newIndex === currentIndex) return;
+
+    isAnimating = true;
+
+    const currentPage = pages[currentIndex];
+    const nextPage = pages[newIndex];
+
+    // Hide current page with reverse morph
+    currentPage.style.clipPath = 'circle(0% at 50% 50%)';
+    currentPage.style.webkitClipPath = 'circle(0% at 50% 50%)';
+    currentPage.style.opacity = '0';
+    currentPage.style.transform = 'scale(0.85)';
+    currentPage.style.pointerEvents = 'none';
+    currentPage.style.zIndex = '0';
+
+    // After animation delay show next page
+    setTimeout(() => {
+      // Reset old page style (for next cycles)
+      currentPage.classList.remove('active');
+
+      // Show next page morph in
+      nextPage.classList.add('active');
+      nextPage.style.clipPath = 'circle(0% at 50% 50%)';
+      nextPage.style.webkitClipPath = 'circle(0% at 50% 50%)';
+      nextPage.style.opacity = '1';
+      nextPage.style.transform = 'scale(0.85)';
+      nextPage.style.pointerEvents = 'auto';
+      nextPage.style.zIndex = '1';
+
+      // Trigger morph to full circle
+      requestAnimationFrame(() => {
+        nextPage.style.clipPath = 'circle(300% at 50% 50%)';
+        nextPage.style.webkitClipPath = 'circle(300% at 50% 50%)';
+        nextPage.style.transform = 'scale(1)';
+      });
+
+      setTimeout(() => {
+        isAnimating = false;
+        currentIndex = newIndex;
+      }, 700); // match CSS transition duration
+    }, 400); // match opacity fade time
+  }
+
+  prevBtn.addEventListener('click', () => {
+    const prevIndex = (currentIndex - 1 + pages.length) % pages.length;
+    showPage(prevIndex);
+  });
+
+  nextBtn.addEventListener('click', () => {
+    const nextIndex = (currentIndex + 1) % pages.length;
+    showPage(nextIndex);
+  });
+
+  // Initialize clip-path and transform for active page on load
+  pages.forEach((page, i) => {
+    if (i === currentIndex) {
+      page.classList.add('active');
+      page.style.clipPath = 'circle(300% at 50% 50%)';
+      page.style.webkitClipPath = 'circle(300% at 50% 50%)';
+      page.style.opacity = '1';
+      page.style.transform = 'scale(1)';
+      page.style.pointerEvents = 'auto';
+      page.style.zIndex = '1';
+    } else {
+      page.style.clipPath = 'circle(0% at 50% 50%)';
+      page.style.webkitClipPath = 'circle(0% at 50% 50%)';
+      page.style.opacity = '0';
+      page.style.transform = 'scale(0.85)';
+      page.style.pointerEvents = 'none';
+      page.style.zIndex = '0';
+    }
+  });
+
+  // Floating hearts animation - NO morph
+  const heartCount = 20;
+
+  function createHearts() {
+    for(let i=0; i<heartCount; i++) {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.top = Math.random() * 100 + 'vh';
+      heart.style.width = (12 + Math.random() * 24) + 'px';
+      heart.style.height = (11 + Math.random() * 22) + 'px';
+      heart.style.animationDuration = (5 + Math.random() * 10) + 's';
+      heart.style.animationDelay = (Math.random() * 10) + 's';
+      document.body.appendChild(heart);
+
+      // Remove heart after animation ends
+      setTimeout(() => {
+        heart.remove();
+      }, 15000);
+    }
+  }
+  createHearts();
+  setInterval(createHearts, 7000);
+
+  // Confetti party favors - NO morph
+  const confettiColors = ['red', 'yellow', 'blue', 'pink', 'green'];
+  const confettiCount = 50;
+
+  function createConfetti() {
+    for(let i=0; i<confettiCount; i++) {
+      const confetti = document.createElement('div');
+      confetti.classList.add('confetti-piece');
+      const color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+      confetti.classList.add(color);
+      confetti.style.left = Math.random() * 100 + 'vw';
+      confetti.style.top = Math.random() * 100 + 'vh';
+      confetti.style.width = 6 + Math.random() * 8 + 'px';
+      confetti.style.height = 6 + Math.random() * 8 + 'px';
+      confetti.style.animationName = 'confettiFall' + (i%4 + 1);
+      confetti.style.animationDuration = 3 + Math.random() * 3 + 's';
+      confetti.style.animationDelay = (Math.random() * 3) + 's';
+      confetti.style.borderRadius = (Math.random() > 0.5) ? '3px' : '0';
+      confetti.style.opacity = 0.9;
+      confetti.classList.add('confetti');
+      document.body.appendChild(confetti);
+
+      setTimeout(() => {
+        confetti.remove();
+      }, 6000);
+    }
+  }
+  createConfetti();
+  setInterval(createConfetti, 5000);
+</script>
+
+<style>
+  @keyframes confettiFall1 {
+    0% {
+      transform: translateY(0) rotate(0deg);
+      opacity: 0.8;
+    }
+    100% {
+      transform: translateY(150vh) rotate(360deg);
+      opacity: 0;
+    }
+  }
+  @keyframes confettiFall2 {
+    0% {
+      transform: translateY(0) rotate(0deg);
+      opacity: 0.8;
+    }
+    100% {
+      transform: translateY(130vh) rotate(-360deg);
+      opacity: 0;
+    }
+  }
+  @keyframes confettiFall3 {
+    0% {
+      transform: translateY(0) rotate(0deg);
+      opacity: 0.8;
+    }
+    100% {
+      transform: translateY(140vh) rotate(180deg);
+      opacity: 0;
+    }
+  }
+  @keyframes confettiFall4 {
+    0% {
+      transform: translateY(0) rotate(0deg);
+      opacity: 0.8;
+    }
+    100% {
+      transform: translateY(160vh) rotate(-180deg);
+      opacity: 0;
+    }
+  }
+</style>
+</body>
+</html>
+

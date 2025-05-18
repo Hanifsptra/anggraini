@@ -52,37 +52,43 @@
   }
 
   .page {
-    position: absolute;
-    top: 80px;
-    left: 50%;
-    width: 100%;
-    max-width: 700px;
-    pointer-events: none;
-    opacity: 0;
-    text-align: center;
-    padding: 10px 15px;
+  margin: 0 auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.85);
+  width: auto; /* GANTI DARI 100% */
+  max-width: 700px;
+  pointer-events: none;
+  opacity: 0;
+  text-align: center;
+  padding: 10px 15px;
 
-    /* Morph transition setup */
-    clip-path: circle(0% at 50% 50%);
-    -webkit-clip-path: circle(0% at 50% 50%);
-    transform: scale(0.85);
-    transition:
-      clip-path 0.7s cubic-bezier(0.4, 0, 0.2, 1),
-      -webkit-clip-path 0.7s cubic-bezier(0.4, 0, 0.2, 1),
-      opacity 0.4s ease,
-      transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 0;
-  }
+  clip-path: circle(0% at 50% 50%);
+  -webkit-clip-path: circle(0% at 50% 50%);
+  transition:
+    clip-path 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+    -webkit-clip-path 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.4s ease,
+    transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 0;
+}
 
-  .page.active {
-    clip-path: circle(300% at 50% 50%);
-    -webkit-clip-path: circle(300% at 50% 50%);
-    opacity: 1;
-    pointer-events: auto;
-    position: relative;
-    transform: scale(1);
-    z-index: 1;
-  }
+.page .content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.page.active {
+  clip-path: circle(300% at 50% 50%);
+  -webkit-clip-path: circle(300% at 50% 50%);
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+  z-index: 1;
+}
 
   .page h2 {
     font-family: 'Pacifico', cursive;
@@ -273,69 +279,91 @@
 <body>
 <header>Birthday Party Anggraini 🎉</header>
 <main>
-  <!-- Pages with greetings and images -->
   <section class="page active" id="page-1" aria-label="Birthday greeting page 1">
-    <h2>Happy Birthday Anggraini Madyalina Dwi Saputri🎂</h2>
-    <p>Anjayyyyy nambah lagi nih umurnya btw ahahahaha😂😂</p>
-    <div class="images">
-      <img src="photo/potbar2.jpg" alt="Birthday Cake with candles" />
-      <img src="photo/potbar4.jpg" alt="Colorful balloons" />
+    <div class="content">
+      <h2>Happy Birthday Anggraini Madyalina Dwi Saputri🎂</h2>
+      <p>Anjayyyyy nambah lagi nih umurnya btw ahahahaha😂😂</p>
+      <div class="images">
+        <img src="anggaini/photo/potbar2.jpg" alt="Birthday Cake with candles" />
+        <img src="anggaini/photo/potbar4.jpg" alt="Colorful balloons" />
+      </div>
     </div>
   </section>
+
   <section class="page" id="page-2" aria-label="Birthday greeting page 2">
-    <h2>bacanya pake nada lembuttttt</h2>
-    <p>cuma pengen bilang diulang tahun yg ke-18 ini semoga anggre selalu diberi kesehatan dan lindungan selalu sama allah. </p>
-    <div class="images">
-      <img src="https://images.unsplash.com/photo-1532634726-193bf6e9c125?auto=format&fit=crop&w=600&q=80" alt="Party confetti" />
-      <img src= alt="Birthday gift box" />
+    <div class="content">
+      <h2>bacanya pake nada lembuttttt</h2>
+      <p>cuma pengen bilang diulang tahun yg ke-18 ini semoga anggre selalu diberi kesehatan dan lindungan selalu sama allah.</p>
+      <div class="images">
+        <img src="https://images.unsplash.com/photo-1532634726-193bf6e9c125?auto=format&fit=crop&w=600&q=80" alt="Party confetti" />
+        <img src="" alt="Birthday gift box" />
+      </div>
     </div>
   </section>
+
   <section class="page" id="page-3" aria-label="Birthday greeting page 3">
-    <h2>Make a Wish!</h2>
-    <p>Blow out the candles and let your dreams take flight.</p>
-    <div class="images">
-      <img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7?auto=format&fit=crop&w=600&q=80" alt="Birthday candles" />
-      <img src="https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=600&q=80" alt="Dream balloons" />
+    <div class="content">
+      <h2>Make a Wish!</h2>
+      <p>Blow out the candles and let your dreams take flight.</p>
+      <div class="images">
+        <img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7?auto=format&fit=crop&w=600&q=80" alt="Birthday candles" />
+        <img src="https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=600&q=80" alt="Dream balloons" />
+      </div>
     </div>
   </section>
+
   <section class="page" id="page-4" aria-label="Birthday greeting page 4">
-    <h2>Celebrate!</h2>
-    <p>Enjoy every moment surrounded by friends and family.</p>
-    <div class="images">
-      <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=80" alt="Party glasses" />
-      <img src="https://images.unsplash.com/photo-1486308510493-cb9a7b9e83f6?auto=format&fit=crop&w=600&q=80" alt="Decorations" />
+    <div class="content">
+      <h2>Celebrate!</h2>
+      <p>Enjoy every moment surrounded by friends and family.</p>
+      <div class="images">
+        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=80" alt="Party glasses" />
+        <img src="https://images.unsplash.com/photo-1486308510493-cb9a7b9e83f6?auto=format&fit=crop&w=600&q=80" alt="Decorations" />
+      </div>
     </div>
   </section>
+
   <section class="page" id="page-5" aria-label="Birthday greeting page 5">
-    <h2>Surprise!</h2>
-    <p>May this year bring you plenty of wonderful surprises.</p>
-    <div class="images">
-      <img src="https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=600&q=80" alt="Wrapped gift" />
-      <img src="https://images.unsplash.com/photo-1517604931442-c3d5a549f5b3?auto=format&fit=crop&w=600&q=80" alt="Gift boxes" />
+    <div class="content">
+      <h2>Surprise!</h2>
+      <p>May this year bring you plenty of wonderful surprises.</p>
+      <div class="images">
+        <img src="https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=600&q=80" alt="Wrapped gift" />
+        <img src="https://images.unsplash.com/photo-1517604931442-c3d5a549f5b3?auto=format&fit=crop&w=600&q=80" alt="Gift boxes" />
+      </div>
     </div>
   </section>
+
   <section class="page" id="page-6" aria-label="Birthday greeting page 6">
-    <h2>Health & Happiness</h2>
-    <p>Wishing you health, happiness, and all the best in life.</p>
-    <div class="images">
-      <img src="https://images.unsplash.com/photo-1511317688831-978b7efaa577?auto=format&fit=crop&w=600&q=80" alt="Sunshine" />
-      <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Nature happiness" />
+    <div class="content">
+      <h2>Health & Happiness</h2>
+      <p>Wishing you health, happiness, and all the best in life.</p>
+      <div class="images">
+        <img src="https://images.unsplash.com/photo-1511317688831-978b7efaa577?auto=format&fit=crop&w=600&q=80" alt="Sunshine" />
+        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Nature happiness" />
+      </div>
     </div>
   </section>
+
   <section class="page" id="page-7" aria-label="Birthday greeting page 7">
-    <h2>Bright Future</h2>
-    <p>May your future be bright with endless possibilities.</p>
-    <div class="images">
-      <img src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&w=600&q=80" alt="Sunrise horizon" />
-      <img src="https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?auto=format&fit=crop&w=600&q=80" alt="Light bulbs" />
+    <div class="content">
+      <h2>Bright Future</h2>
+      <p>May your future be bright with endless possibilities.</p>
+      <div class="images">
+        <img src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&w=600&q=80" alt="Sunrise horizon" />
+        <img src="https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?auto=format&fit=crop&w=600&q=80" alt="Light bulbs" />
+      </div>
     </div>
   </section>
+
   <section class="page" id="page-8" aria-label="Birthday greeting page 8">
-    <h2>Much Love!</h2>
-    <p>Sending you lots of love today and always. ❤️</p>
-    <div class="images">
-      <img src="https://images.unsplash.com/photo-1512427691650-4e02eeaa5fb1?auto=format&fit=crop&w=600&q=80" alt="Heart balloons" />
-      <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80" alt="Soft hearts" />
+    <div class="content">
+      <h2>Much Love!</h2>
+      <p>Sending you lots of love today and always. ❤️</p>
+      <div class="images">
+        <img src="https://images.unsplash.com/photo-1512427691650-4e02eeaa5fb1?auto=format&fit=crop&w=600&q=80" alt="Heart balloons" />
+        <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80" alt="Soft hearts" />
+      </div>
     </div>
   </section>
 </main>
